@@ -274,7 +274,26 @@ class irDataClient:
             raise RuntimeError("Please supply a league_id")
         payload = {"league_id": league_id, "include_licenses": include_licenses}
         return self._get_resource("/data/league/get", payload=payload)
+    
+    def league_sessions(self, league_id=None, season_id=None, results_only=True):
+        """Fetches a dict containing sessions from the league requested.
 
+        Retrieves a dict containing all the containing sessions from the league requested.
+
+        Args:
+            league_id (int): the ID of the league requested
+            season_id (int): the ID of the season requested
+            results_only (bool): whether if you want to include only the sessions that have results or not.
+                Default ``True``.
+        """
+
+        if not league_id:
+            raise RuntimeError("Please supply a league_id")
+        if not season_id:
+            raise RuntimeError("Please supply a season_id")
+        payload = {"league_id": league_id, "season_id": season_id, "results_only": results_only}
+        return self._get_resource("https://members-ng.iracing.com/data/league/season_sessions", payload=payload)
+    
     def league_cust_league_sessions(self, mine=False, package_id=None):
         """Fetches a dict containing information from the league requested.
 
